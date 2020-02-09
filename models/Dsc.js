@@ -14,7 +14,7 @@ const DscSchema = new mongoose.Schema(
       required: true
     },
     size: {
-      type: String,
+      type: Number,
       required: true
     },
     domains: {
@@ -43,6 +43,12 @@ const DscSchema = new mongoose.Schema(
       type: String
     },
     githubLink: {
+      type: String
+    },
+    dribbleLink: {
+      type: String
+    },
+    pinterestLink: {
       type: String
     }
   },
