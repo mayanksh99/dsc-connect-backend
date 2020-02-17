@@ -1,15 +1,25 @@
 const mongoose = require("mongoose");
-//const jwt = require("jsonwebtoken");
-
-//require("dotenv").config();
 
 const DscSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    },
     name: {
       type: String,
       required: true
     },
-    location: {
+    city: {
+      type: String,
+      required: true
+    },
+    state: {
+      type: String,
+      required: true
+    },
+    country: {
       type: String,
       required: true
     },
@@ -50,22 +60,13 @@ const DscSchema = new mongoose.Schema(
     },
     pinterestLink: {
       type: String
+    },
+    status: {
+      type: Number,
+      default: 0
     }
   },
   { timestamps: true }
 );
-
-// UserSchema.methods.generateAuthToken = function() {
-//     const token = jwt.sign(
-//         {
-//             id: this._id,
-//             name: this.name,
-//             email: this.email,
-//             isAdmin: this.isAdmin
-//         },
-//         process.env.JWT_PRIVATE_KEY
-//     );
-//     return token;
-// };
 
 module.exports = Dsc = mongoose.model("Dsc", DscSchema);

@@ -1,12 +1,19 @@
 module.exports.getData = async (req, res) => {
   let filter = {};
   let data;
-  data = await Dsc.find(filter).sort({ createdAt: "desc" });
-  res.status(200).json({ message: "success", error: false, data });
+  let id = req.query.id;
+  if (id) {
+    data = await Dsc.findOne({ user: id });
+    console.log(data);
+  } else {
+    data = await Dsc.find(filter).sort({ createdAt: "desc" });
+    res.status(200).json({ message: "success", error: false, data });
+  }
 };
 
 module.exports.addData = async (req, res) => {
-  let data = await Dsc.create(req.body);
+  let newUser = { user: req.user.id, ...req.body };
+  let data = await Dsc.create(newUser);
   res.status(200).json({ message: "success", error: false, data });
 };
 
