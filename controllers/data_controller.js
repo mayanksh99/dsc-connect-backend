@@ -1,10 +1,22 @@
 module.exports.getData = async (req, res) => {
   let filter = {};
+  if (req.query.location) {
+    filter = { location: req.query.location };
+    console.log(filter);
+  }
+  if (req.query.name) {
+    filter = { name: req.query.name, ...filter };
+    console.log(filter);
+  }
+  if (req.query.domain) {
+    filter = { domain: req.query.domain, ...filter };
+    console.log(filter);
+  }
   let data;
   let id = req.query.id;
   if (id) {
     data = await Dsc.findOne({ user: id });
-    console.log(data);
+    res.status(200).json({ message: "success", error: false, data });
   } else {
     data = await Dsc.find(filter).sort({ createdAt: "desc" });
     res.status(200).json({ message: "success", error: false, data });
@@ -14,7 +26,9 @@ module.exports.getData = async (req, res) => {
 module.exports.addData = async (req, res) => {
   let newUser = { user: req.user.id, ...req.body };
   let data = await Dsc.create(newUser);
-  res.status(200).json({ message: "success", error: false, data });
+  res
+    .status(200)
+    .json({ message: "Request success. Status pending", error: false, data });
 };
 
 module.exports.updateData = async (req, res) => {
@@ -32,7 +46,7 @@ module.exports.updateData = async (req, res) => {
     dribbleLink,
     pinterestLink
   } = req.body;
-  let data = await Dsc.findById(req.params.id);
+  let data = await Dsc.findOne({ user: req.params.id });
   if (data) {
     data.size = size;
     data.domains = domains;
@@ -47,8 +61,10 @@ module.exports.updateData = async (req, res) => {
     data.dribbleLink = dribbleLink;
     data.pinterestLink = pinterestLink;
     await data.save();
-    data = await Dsc.findById(req.params.id);
-    res.status(200).json({ message: "success", error: false, data });
+    data = await Dsc.findOne({ user: req.params.id });
+    res
+      .status(200)
+      .json({ message: "Request success. Status pending", error: false, data });
   } else {
     res.status(400).json({
       message: "Invalid Data",
@@ -59,7 +75,7 @@ module.exports.updateData = async (req, res) => {
 };
 
 module.exports.deleteData = async (req, res) => {
-  let data = await Dsc.findById(req.params.id);
+  let data = await Dsc.findOne({ user: req.params.id });
   if (data) {
     await data.delete();
     res.status(200).json({ message: "success", error: false, data: null });
