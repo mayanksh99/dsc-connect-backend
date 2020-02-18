@@ -28,7 +28,8 @@ const DscSchema = new mongoose.Schema(
       required: true
     },
     domains: {
-      type: String,
+      type: Array,
+      value: [],
       required: true
     },
     webLink: {
