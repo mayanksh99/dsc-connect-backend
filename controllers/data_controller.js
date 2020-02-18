@@ -3,6 +3,9 @@ module.exports.getData = async (req, res) => {
   if (req.query.name) {
     filter = { name: req.query.name, ...filter };
   }
+  if (req.query.domain) {
+    filter = { domains: req.query.domain, ...filter };
+  }
   let data;
   let id = req.query.id;
   if (id) {
@@ -15,6 +18,17 @@ module.exports.getData = async (req, res) => {
     let domain = { domains: req.query.domain };
     data = await Dsc.find({
       $and: [{ $or: [city, state, country] }, { $or: [domain] }]
+    }).sort({
+      createdAt: "desc"
+    });
+    res.status(200).json({ message: "success", error: false, data });
+  } else if (req.query.location) {
+    let city = { city: req.query.location };
+    let state = { state: req.query.location };
+    let country = { country: req.query.location };
+    let domain = { domains: req.query.domain };
+    data = await Dsc.find({
+      $and: [{ $or: [city, state, country] }]
     }).sort({
       createdAt: "desc"
     });
