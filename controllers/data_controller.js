@@ -1,21 +1,31 @@
 module.exports.getData = async (req, res) => {
   let filter = {};
-  if (req.query.location) {
-    filter = { location: req.query.location };
-    console.log(filter);
-  }
+  // if (req.query.location) {
+  //   filter = {
+  //     city: req.query.location,
+  //     state: req.query.location,
+  //     country: req.query.location
+  //   };
+  //   console.log(filter);
+  // }
   if (req.query.name) {
     filter = { name: req.query.name, ...filter };
-    console.log(filter);
   }
   if (req.query.domain) {
-    filter = { domain: req.query.domain, ...filter };
-    console.log(filter);
+    filter = { domains: req.query.domain, ...filter };
   }
   let data;
   let id = req.query.id;
   if (id) {
     data = await Dsc.findOne({ user: id });
+    res.status(200).json({ message: "success", error: false, data });
+  } else if (req.query.location) {
+    let city = { city: req.query.location };
+    let state = { state: req.query.location };
+    let country = { country: req.query.location };
+    data = await Dsc.find(state || city || country).sort({
+      createdAt: "desc"
+    });
     res.status(200).json({ message: "success", error: false, data });
   } else {
     data = await Dsc.find(filter).sort({ createdAt: "desc" });
@@ -24,11 +34,18 @@ module.exports.getData = async (req, res) => {
 };
 
 module.exports.addData = async (req, res) => {
-  let newUser = { user: req.user.id, ...req.body };
-  let data = await Dsc.create(newUser);
-  res
-    .status(200)
-    .json({ message: "Request success. Status pending", error: false, data });
+  let prevData = await Dsc.findOne({ user: req.user.id });
+  if (!prevData) {
+    let newUser = { user: req.user.id, ...req.body };
+    let data = await Dsc.create(newUser);
+    res
+      .status(200)
+      .json({ message: "Request success. Status pending", error: false, data });
+  } else {
+    res
+      .status(200)
+      .json({ message: "DSC is already registered", error: false });
+  }
 };
 
 module.exports.updateData = async (req, res) => {
