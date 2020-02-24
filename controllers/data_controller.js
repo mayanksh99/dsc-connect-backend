@@ -1,10 +1,10 @@
 module.exports.getData = async (req, res) => {
   let filter = {};
   if (req.query.name) {
-    filter = { name: req.query.name, ...filter };
+    filter = { name: req.query.name };
   }
   if (req.query.domain) {
-    filter = { domains: req.query.domain, ...filter };
+    filter = { domains: req.query.domain };
   }
   let data;
   let id = req.query.id;
@@ -12,29 +12,43 @@ module.exports.getData = async (req, res) => {
     data = await Dsc.findOne({ user: id });
     res.status(200).json({ message: "success", error: false, data });
   } else if (req.query.location && req.query.domain) {
-    let city = { city: req.query.location };
-    let state = { state: req.query.location };
-    let country = { country: req.query.location };
-    let domain = { domains: req.query.domain };
+    let city = req.query.location;
+    let state = req.query.location;
+    let country = req.query.location;
+    let domains = req.query.domain;
     data = await Dsc.find({
-      $and: [{ $or: [city, state, country] }, { $or: [domain] }]
+      $and: [
+        {
+          $or: [
+            { city: { $regex: city, $options: "i" } },
+            { state: { $regex: state, $options: "i" } },
+            { country: { $regex: country, $options: "i" } }
+          ]
+        },
+        { $or: [{ domains: { $regex: domains, $options: "i" } }] }
+      ]
     }).sort({
       createdAt: "desc"
     });
     res.status(200).json({ message: "success", error: false, data });
   } else if (req.query.location) {
-    let city = { city: req.query.location };
-    let state = { state: req.query.location };
-    let country = { country: req.query.location };
-    let domain = { domains: req.query.domain };
+    let city = req.query.location;
+    let state = req.query.location;
+    let country = req.query.location;
     data = await Dsc.find({
-      $and: [{ $or: [city, state, country] }]
+      $or: [
+        { city: { $regex: city, $options: "i" } },
+        { state: { $regex: state, $options: "i" } },
+        { country: { $regex: country, $options: "i" } }
+      ]
     }).sort({
       createdAt: "desc"
     });
     res.status(200).json({ message: "success", error: false, data });
   } else {
-    data = await Dsc.find(filter).sort({ createdAt: "desc" });
+    data = await Dsc.find({ filter }).sort({
+      createdAt: "desc"
+    });
     res.status(200).json({ message: "success", error: false, data });
   }
 };
