@@ -1,11 +1,4 @@
 module.exports.getData = async (req, res) => {
-  let filter = {};
-  if (req.query.name) {
-    filter = { name: req.query.name };
-  }
-  if (req.query.domain) {
-    filter = { domains: req.query.domain };
-  }
   let data;
   let id = req.query.id;
   if (id) {
@@ -45,8 +38,22 @@ module.exports.getData = async (req, res) => {
       createdAt: "desc"
     });
     res.status(200).json({ message: "success", error: false, data });
+  } else if (req.query.name) {
+    let name = req.query.name;
+    data = await Dsc.find({ name: { $regex: name, $options: "i" } }).sort({
+      createdAt: "desc"
+    });
+    res.status(200).json({ message: "success", error: false, data });
+  } else if (req.query.domain) {
+    let domains = req.query.domain;
+    data = await Dsc.find({ domains: { $regex: domains, $options: "i" } }).sort(
+      {
+        createdAt: "desc"
+      }
+    );
+    res.status(200).json({ message: "success", error: false, data });
   } else {
-    data = await Dsc.find({ filter }).sort({
+    data = await Dsc.find().sort({
       createdAt: "desc"
     });
     res.status(200).json({ message: "success", error: false, data });
