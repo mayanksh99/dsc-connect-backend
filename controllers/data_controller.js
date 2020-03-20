@@ -61,6 +61,7 @@ module.exports.getData = async (req, res) => {
 };
 
 module.exports.addData = async (req, res) => {
+  console.log(req.user);
   let prevData = await Dsc.findOne({ user: req.user.id });
   if (!prevData) {
     let newUser = { user: req.user.id, ...req.body };

@@ -19,7 +19,9 @@ const UserSchema = new mongoose.Schema(
     isAdmin: {
       type: Boolean,
       default: false
-    }
+    },
+    verifyToken: { type: String },
+    isVerified: { type: Boolean, default: false }
   },
   { timestamps: true }
 );
@@ -30,7 +32,8 @@ UserSchema.methods.generateAuthToken = function() {
       id: this._id,
       name: this.name,
       email: this.email,
-      isAdmin: this.isAdmin
+      isAdmin: this.isAdmin,
+      isVerified: this.isVerified
     },
     process.env.JWT_PRIVATE_KEY
   );
