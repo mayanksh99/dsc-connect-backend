@@ -20,6 +20,8 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    isSubmitted: { type: Boolean, default: false },
+    isPublished: { type: Boolean, default: false },
     verifyToken: { type: String },
     isVerified: { type: Boolean, default: false }
   },
@@ -33,7 +35,9 @@ UserSchema.methods.generateAuthToken = function() {
       name: this.name,
       email: this.email,
       isAdmin: this.isAdmin,
-      isVerified: this.isVerified
+      isVerified: this.isVerified,
+      isSubmitted: this.isSubmitted,
+      isPublished: this.isPublished
     },
     process.env.JWT_PRIVATE_KEY
   );
