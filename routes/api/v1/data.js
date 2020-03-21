@@ -16,8 +16,8 @@ const { dataValidation } = require("../../../middlewares/validations");
 
 // routes
 router.get("/", catchErrors(getData));
-router.post("/", allAuth, catchErrors(addData));
-router.put("/:id", allAuth, catchErrors(updateData));
+router.post("/", allAuth, dataValidation, catchErrors(addData));
+router.put("/:id", allAuth, dataValidation, catchErrors(updateData));
 router.delete("/:id", allAuth, catchErrors(deleteData));
 
 // export router
