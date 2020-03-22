@@ -36,7 +36,7 @@ module.exports.dataValidation = (req, res, next) => {
     city,
     state,
     country,
-    domain,
+    domains,
     size,
     webLink,
     fbLink,
@@ -47,24 +47,9 @@ module.exports.dataValidation = (req, res, next) => {
     githubLink,
     youtubeLink
   } = req.body;
-  if (
-    !name ||
-    !city ||
-    !state ||
-    !country ||
-    !domain ||
-    !size ||
-    !webLink ||
-    !fbLink ||
-    !instaLink ||
-    !twitterLink ||
-    !linkedinLink ||
-    !mediumLink ||
-    !githubLink ||
-    !youtubeLink
-  ) {
+  if (!name || !city || !state || !country || !domains || !size) {
     res.status(400).json({
-      message: "All fields are required.",
+      message: "Some fields are required.",
       error: true,
       data: req.body
     });

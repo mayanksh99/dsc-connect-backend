@@ -39,7 +39,7 @@ module.exports.register = async (req, res) => {
         from: '"DSC CONNECT" <devsdsckiet@gmail.com>', // sender address
         to: Email, // list of receivers
         subject: "Verification Email", // Subject line
-        html: `Please click on this link to verify your account. http://localhost:5000/verifyEmail/${code}` // html body
+        html: `Please click on this link to verify your account. http://localhost:5000/index/verifyEmail/${code}` // html body
       });
       let newUser = {
         name: String(name).trim(),

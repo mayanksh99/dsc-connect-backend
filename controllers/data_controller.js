@@ -61,18 +61,22 @@ module.exports.getData = async (req, res) => {
 };
 
 module.exports.addData = async (req, res) => {
-  console.log(req.user);
+  let user = await User.findById({ _id: req.user.id });
   let prevData = await Dsc.findOne({ user: req.user.id });
   if (!prevData) {
     let newUser = { user: req.user.id, ...req.body };
+    user.isSubmitted = true;
+    await user.save();
     let data = await Dsc.create(newUser);
     res
       .status(200)
       .json({ message: "Request success. Status pending", error: false, data });
   } else {
-    res
-      .status(200)
-      .json({ message: "DSC is already registered", error: false });
+    res.status(400).json({
+      message: "DSC is already registered",
+      error: true,
+      data: req.body
+    });
   }
 };
 
