@@ -109,6 +109,7 @@ module.exports.updateData = async (req, res) => {
     data.githubLink = githubLink;
     data.dribbleLink = dribbleLink;
     data.pinterestLink = pinterestLink;
+    data.isPublished = false;
     await data.save();
     data = await Dsc.findOne({ user: req.params.id });
     res

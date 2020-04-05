@@ -80,7 +80,7 @@ module.exports.login = async (req, res) => {
       return res.status(403).json({
         message: "Invalid password",
         error: true,
-        data
+        data: null
       });
     } else {
       let token = user.generateAuthToken();
