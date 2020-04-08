@@ -6,7 +6,7 @@ const {
   getData,
   addData,
   updateData,
-  deleteData
+  deleteData,
 } = require("../../../controllers/data_controller");
 
 // middlewares

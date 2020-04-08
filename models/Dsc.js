@@ -5,7 +5,7 @@ const DscSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
+      required: true,
     },
     name: { type: String, required: true },
     city: { type: String, required: true },
@@ -21,7 +21,8 @@ const DscSchema = new mongoose.Schema(
     mediumLink: { type: String },
     youtubeLink: { type: String },
     githubLink: { type: String },
-    isPublished: { type: Boolean, default: false }
+    isPublished: { type: Boolean, default: false },
+    isRejected: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

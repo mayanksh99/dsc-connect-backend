@@ -15,13 +15,13 @@ module.exports.getData = async (req, res) => {
           $or: [
             { city: { $regex: city, $options: "i" } },
             { state: { $regex: state, $options: "i" } },
-            { country: { $regex: country, $options: "i" } }
-          ]
+            { country: { $regex: country, $options: "i" } },
+          ],
         },
-        { $or: [{ domains: { $regex: domains, $options: "i" } }] }
-      ]
+        { $or: [{ domains: { $regex: domains, $options: "i" } }] },
+      ],
     }).sort({
-      createdAt: "desc"
+      createdAt: "desc",
     });
     res.status(200).json({ message: "success", error: false, data });
   } else if (req.query.location) {
@@ -32,29 +32,29 @@ module.exports.getData = async (req, res) => {
       $or: [
         { city: { $regex: city, $options: "i" } },
         { state: { $regex: state, $options: "i" } },
-        { country: { $regex: country, $options: "i" } }
-      ]
+        { country: { $regex: country, $options: "i" } },
+      ],
     }).sort({
-      createdAt: "desc"
+      createdAt: "desc",
     });
     res.status(200).json({ message: "success", error: false, data });
   } else if (req.query.name) {
     let name = req.query.name;
     data = await Dsc.find({ name: { $regex: name, $options: "i" } }).sort({
-      createdAt: "desc"
+      createdAt: "desc",
     });
     res.status(200).json({ message: "success", error: false, data });
   } else if (req.query.domain) {
     let domains = req.query.domain;
     data = await Dsc.find({ domains: { $regex: domains, $options: "i" } }).sort(
       {
-        createdAt: "desc"
+        createdAt: "desc",
       }
     );
     res.status(200).json({ message: "success", error: false, data });
   } else {
     data = await Dsc.find().sort({
-      createdAt: "desc"
+      createdAt: "desc",
     });
     res.status(200).json({ message: "success", error: false, data });
   }
@@ -75,7 +75,7 @@ module.exports.addData = async (req, res) => {
     res.status(400).json({
       message: "DSC is already registered",
       error: true,
-      data: req.body
+      data: req.body,
     });
   }
 };
@@ -93,7 +93,7 @@ module.exports.updateData = async (req, res) => {
     youtubeLink,
     githubLink,
     dribbleLink,
-    pinterestLink
+    pinterestLink,
   } = req.body;
   let data = await Dsc.findOne({ user: req.params.id });
   if (data) {
@@ -110,6 +110,7 @@ module.exports.updateData = async (req, res) => {
     data.dribbleLink = dribbleLink;
     data.pinterestLink = pinterestLink;
     data.isPublished = false;
+    data.isRejected = false;
     await data.save();
     data = await Dsc.findOne({ user: req.params.id });
     res
@@ -119,7 +120,7 @@ module.exports.updateData = async (req, res) => {
     res.status(400).json({
       message: "Invalid Data",
       error: true,
-      data: null
+      data: null,
     });
   }
 };
@@ -133,7 +134,7 @@ module.exports.deleteData = async (req, res) => {
     res.status(400).json({
       message: "Invalid Dsc",
       error: true,
-      data: null
+      data: null,
     });
   }
 };

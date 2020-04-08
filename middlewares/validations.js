@@ -47,7 +47,7 @@ module.exports.dataValidation = (req, res, next) => {
     githubLink,
     youtubeLink,
   } = req.body;
-  if (!name || !city || !state || !country || !domains || !size) {
+  if (!name || !city || !state || !country || domains.length === 0 || !size) {
     return res.status(400).json({
       message: "Some fields are required.",
       error: true,
