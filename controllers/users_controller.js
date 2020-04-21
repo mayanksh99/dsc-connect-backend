@@ -39,7 +39,7 @@ module.exports.register = async (req, res) => {
         from: '"DSC CONNECT" <devsdsckiet@gmail.com>', // sender address
         to: Email, // list of receivers
         subject: "Verification Email", // Subject line
-        html: `Please click on this link to verify your account. https://dsc-connect.netlify.app/verifyEmail/${code}`, // html body
+        html: `Please click on this link to verify your account. https://dsc-connect.netlify.app/verify/${code}`, // html body
       });
       let newUser = {
         name: String(name).trim(),
