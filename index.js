@@ -14,14 +14,14 @@ app.use(
   bodyParser.urlencoded({
     limit: "50mb",
     extended: true,
-    parameterLimit: 1000000
+    parameterLimit: 1000000,
   })
 );
 app.use(
   bodyParser.json({
     limit: "50mb",
     extended: true,
-    parameterLimit: 1000000
+    parameterLimit: 1000000,
   })
 );
 
@@ -29,7 +29,7 @@ app.use(
 const User = require("./models/User");
 const Dsc = require("./models/Dsc");
 //Routes
-app.use("/index", require("./routes/api/v1/index"));
+app.use("api/v1/index", require("./routes/api/v1/index"));
 app.use("/api/v1/users", require("./routes/api/v1/users"));
 app.use("/api/v1/data", require("./routes/api/v1/data"));
 
