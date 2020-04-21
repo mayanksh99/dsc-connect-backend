@@ -29,7 +29,7 @@ app.use(
 const User = require("./models/User");
 const Dsc = require("./models/Dsc");
 //Routes
-app.use("api/v1/index", require("./routes/api/v1/index"));
+app.use("/api/v1/index", require("./routes/api/v1/index"));
 app.use("/api/v1/users", require("./routes/api/v1/users"));
 app.use("/api/v1/data", require("./routes/api/v1/data"));
 
