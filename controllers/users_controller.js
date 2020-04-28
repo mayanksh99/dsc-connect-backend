@@ -259,7 +259,7 @@ module.exports.register = async (req, res) => {
                                     bgcolor="#0f9d58"
                                   >
                                     <a
-                                      href="Please click on this link to verify your account. https://dsc-connect.netlify.app/verify/${code}"
+                                      href="https://dsc-connect.netlify.app/verify/${code}"
                                       target="_blank"
                                       style="
                                         font-size: 20px;
